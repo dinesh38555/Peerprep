@@ -1,0 +1,38 @@
++----------------+          +-------------------+          +----------------+
+|     users      |          |   user_progress   |          |   reflections  |
++----------------+          +-------------------+          +----------------+
+| user_id PK     |<---------| user_id FK        |          | reflection_id PK|
+| username       |          | progress_id PK    |          | user_id FK     |
+| user_password  |          | problem_id FK     |          | problem_id FK  |
+| first_name     |          | problem_status    |          | reflection_text|
+| last_name      |          | time_created      |          | sentiment      |
+| email          |          | time_updated      |          | keywords       |
+| time_created   |          +-------------------+          | confidence_score|
+| time_updated   |                                         | created_at     |
+| user_role      |                                         | updated_at     |
+| acc_status     |                                         +----------------+
++----------------+
+
+Relationships:
+
+1. **users → user_progress**  
+   - One user can have many progress entries (1-to-many).  
+   - `user_progress.user_id` references `users.user_id`.  
+
+2. **users → reflections**  
+   - One user can have many reflections (1-to-many).  
+   - `reflections.user_id` references `users.user_id` with `ON DELETE CASCADE`.
+
+3. **problems → user_progress**  
+   - One problem can be attempted by many users (1-to-many).  
+   - `user_progress.problem_id` references `problems.problem_id`.
+
+4. **problems → reflections**  
+   - One problem can have many reflections from different users (1-to-many).  
+   - `reflections.problem_id` references `problems.problem_id` with `ON DELETE SET NULL`.
+
+Notes:
+- `progress_id` in `user_progress` is PK, uniquely identifies each attempt.  
+- `reflection_id` in `reflections` is PK, uniquely identifies each reflection.  
+- `problem_id` in `reflections` is optional, allowing general reflections.  
+- Timestamps (`time_created`, `time_updated`, `created_at`, `updated_at`) track submission and edits automatically.

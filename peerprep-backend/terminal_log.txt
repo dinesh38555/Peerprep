@@ -1,0 +1,6 @@
+PS C:\Users\dines> cd D:
+PS D:\> cd C:\Users\dines\peerprep-backend
+PS C:\Users\dines\peerprep-backend> node server.js
+Server running at http://localhost:3000/sheets
+Connected to MySQL 
+
